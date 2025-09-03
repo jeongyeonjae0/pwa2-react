@@ -1,0 +1,100 @@
+import { useState } from 'react';
+import './App.css';
+
+function App() {
+  const title = '제목';
+
+  const titleStyle = {
+    color: 'blue',
+    fontSize: '1rem'
+  };
+  //  document.querySelector('button').addEventListener('click', () => {
+  //   const p = document.querySelector('p');
+  //   p.textContent = parseInt(p.textContent) +1;
+  //  });
+
+  const [count, setCount] = useState(0);
+
+  // 함수 선언식(함수 키워드로 시작하는 것)이 아닌 함수 표현식(const, let, var로 시작, 내부에 function이 있어도) 
+  const incrementCount = () => {
+    setCount((prev) => prev + 1);
+  }
+
+  const decrementCount = () => {
+    setCount((prev) => {
+      if(prev > 0) {
+        return prev - 1;
+      } else {
+        return 0;
+      }
+    }); 
+  }   
+
+  const [account, setAcoount] = useState('');
+
+
+  const [userInfo, setUserInfo] = useState({
+    name: '홍길동',
+    age: 20,
+    gender: 'M'
+  });
+
+  // const [a, b] = [1, 4];
+  // destructuring문법이므로 1은 a, 4는 b에 담김 (객체나 배열의 값을 쉽게 꺼내서 변수에 할당)
+  
+  // const test = {
+  //   state: null,
+  //   setter: (param) => {
+  //     if(this.state === param) {
+  //       this.state = param;
+  //       //리랜더링 처리  
+  //     } else {
+  //       return;
+  //     }
+  //   },
+  //   useState(data) {
+  //     this.state = data;
+  //     return [this.state, this.setter]; 
+  //   }
+  // }; 
+  // react에서 set을 쓰는 이유 1.캡슐화  2.버그 추적  3.리랜더링 처리(useState를 쓸 때)
+  // const [a, setA] = test.useState(0);  //[this.state, this.setter]; 
+  // setA(1);
+  // console.log(a);
+
+// 기존 state !== 새 state -> re-rendering의 기본 조건
+  const addAge = () => {
+    const copy = {...userInfo};
+    copy.age += 1;
+    setUserInfo(copy);
+  }
+
+  return (
+    <>
+      <span> {`${userInfo.name} : ${userInfo.age} : ${userInfo.gender}`}</span>
+      <button type="button" onClick={addAge}>나이 증가</button>
+      
+      <br />
+      <br />
+      {/* input과 button은 inline-block이라서 공간이 있으면 옆으로 늘어남 */}
+      <input type="text" 
+      // 초기값이 있을 때는 value 작성 해주고, 초기값이 없으면 value 없어도 됨. 
+      value={account} 
+      // {/* 이전 state 값이 필요 없기 때문에 prev를 사용하지 않음 */}
+      onChange={(e) => { setAcoount(e.target.value) }}
+      />   
+      {/* 실시간으로 변경된 부분을 확인하기 위해 만듬 */}
+      <p>{account}</p>  
+
+      <p>{count}</p>
+      <button type="button" onClick={incrementCount}>+</button> 
+      <button type="button" onClick={decrementCount}>-</button>
+
+      {/* <h1 style="color: red; font-size: 2rem,"></h1> */}
+      <h1 className="title" style={{color: 'red', fontSize: '3rem'}}>{title}</h1>
+      <h1 style={titleStyle}>{title}</h1>
+    </>
+  )
+}
+
+export default App;
