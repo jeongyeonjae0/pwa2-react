@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import ProductDetail from './ProductDetail.jsx';
 import './ProductList.css';
 
 function ProductList() {
@@ -6,23 +8,37 @@ function ProductList() {
     {id: 1, title: '티셔츠', info: '좋은 티셔츠' , price: 5000, img: 'https://picsum.photos/id/5/5000/3334'},
     {id: 2, title: '양말', info: '좋은 양말', price: 1000, img: 'https://picsum.photos/id/9/5000/3269'}
   ]; 
+//  const [ProductDetail, setProductDetail] = useState();
+//  const viewProdDe = () => {
+//   setProductDetail(true)
+//  }
+ const [modalFlg, setModalFlg] = useState(false); 
+
+ const [propsProduct, setPropsProduct] = useState({});
+
+ const viewModal = (item) => {
+  setPropsProduct({...item});
+  setModalFlg(true);
+ }
 
 
   return ( 
-    <div className="card-container">
-      {
-        products.map(item => {
-          return (
-            <div className="card" key={item.id}>
-              <div className="card-img" style={{backgroundImage: `url('${item.img}')`}}></div>
-              <p className="card-title">{item.title}</p>
-              <p className="card-price">{item.price}</p>
-            </div>
-          )
-        })
-      }
-    </div>
-
+   <>
+     {modalFlg && <ProductDetail product={propsProduct} setModalFlg={setModalFlg}></ProductDetail>}
+     <div className="card-container">
+       {
+         products.map(item => {
+           return (
+               <div className="card" key={item.id} onClick={() => { viewModal(item) }}>
+               <div className="card-img" style={{backgroundImage: `url('${item.img}')`}}></div>
+               <p className="card-title">{item.title}</p>
+               <p className="card-price">{item.price}</p>
+             </div>
+           )
+         })
+       }
+     </div>
+   </>
     // <div className="card-container">
     //   <div className="card">
     //     <div className="card-img" style={{backgroundImage: `url('https://picsum.photos/id/1/5000/3333')`}}></div>
